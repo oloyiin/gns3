@@ -1,0 +1,108 @@
+Routage 
+AS 11
+Routage intra domain : Rip v2 ibgp
+R1
+interface g1/0 : connected to R3
+ip address : 2001:100:100:101::1/64
+interface f0/0 : connected to R2
+ip address : 2001:100:100:102::1/64
+loopback address : 2001:100:100:100::1/128
+router-id 1.1.1.1
+R2
+interface g1/0 : connected to R3
+ip address : 2001:100:100:103::1/64
+interface f0/0 : connected to R1
+ip address : 2001:100:100:102::2/64
+loopback address : 2001:200:200:200::1/128
+router-id : 2.2.2.2
+R3
+interface g1/0 : connected to R2
+ip address : 2001:100:100:103::2/64
+interface f0/0 : connected to R1
+ip address : 2001:100:100:101::2/64
+interface g2/0 : connected to r4
+ip address : 2001:300:300:300::1/64
+loopback address : 2001:330:300:300::1/128
+router-id: 3.3.3.3
+
+
+AS 22 
+routage intra domain : Ospf ibgp
+R4
+interface g2/0 : connected to R3
+ip address : 2001:300:300:300::2/64
+interface f0/0 : connected to R5
+ip address : 2001:200:200:202::1/64
+interface g1/0 : connected to R6
+ip address : 2001:200:200:201::1/64
+loopback address : 2001:400:400:400::1/128
+router-id : 4.4.4.4
+R5
+interface f0/0 : connected to R4
+ip address : 2001:200:200:202::2/64
+interface g2/0 : connected to R6
+ip address : 2001:200:200:203::1/64
+loopback address : 2001:500:500:500::1/128
+router-id : 5.5.5.5
+R6
+interface g1/0 : connected to R4
+ip address : 2001:200:200:201::2/64
+interface g2/0 : connected to R5
+ip address : 2001:200:200:203::2/64
+loopback address : 2001:600:600:600::1/128
+router-id : 6.6.6.6
+
+
+rip v2 : R1 R2 R3 
+Ospf : R4 R5 R6
+ibgp : R4 R5 R6 ASnumber 22
+ibgp : R1 R2 R3 ASnumber 11
+ebgp : R3 R4 
+
+
+addressage ipv6
+ipv6 unicast-routing
+interface 
+ipv6 enable
+ipv6 address address/prefix-length
+no sh 
+
+mise en place rip 
+ipv6 router rip nom
+redistribute connected
+interface
+ipv6 rip nom enable
+
+Mise en place ospf
+ipv6 router ospf nom
+router-id X.X.X.X
+interface
+ipv6 ospf nom area X
+
+mise en place ibgp 
+router bgp ASnumber
+no bgp default ipv4-unicast
+bg router-id X.X.X.X
+neighbor X.X.X.X remote-as ASnumber
+address-family ipv6 unicast
+neighbor ipv6-address activate
+
+mise en place ebgp 
+router bgp ASnumber
+no bgp default ipv4-unicast
+bgp router-id X.X.X.X
+neighbor X.X.X.X remote-as ASnumber
+address-family ipv6 unicast
+neighbor ipv6-address activate
+network ipv6-prefix /64
+
+mise en place ibgp loopback
+router bgp ASnumber
+no bgp default ipv4-unicast
+bgp router-id X.X.X.X
+neighbor X.X.X.X remote-as ASnumber
+neighbor X.X.X.X update-source loopback X
+address-family ipv6 unicast
+network ipv6-prefix /128
+
+

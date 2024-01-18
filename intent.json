@@ -1,0 +1,255 @@
+{
+  "AS11": {
+    "routers": {
+      "R1": {
+        "interfaces": {
+          "g1/0": {
+            "connectedTo": "R3",
+            "ipAddress": "2001:100:100:101::1/64"
+          },
+          "f0/0": {
+            "connectedTo": "R2",
+            "ipAddress": "2001:100:100:102::1/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:100:100:100::1/128"
+          }
+        },
+        "routerId": "1.1.1.1",
+        "ASnumber": "11",
+        "routingProtocols": ["Rip v2", "ibgp"],
+        "ibgpNeighbors": [
+          {
+            "neighbor": "R2",
+            "type": "client",
+            "localPreference": 150,
+            "ipAddress": "2001:100:100:102::2",
+            "loopbackAddress": "2001:200:200:200::1"
+          },
+          {
+            "neighbor": "R3",
+            "type": "peer",
+            "localPreference": 120,
+            "ipAddress": "2001:100:100:103::2",
+            "loopbackAddress": "2001:330:300:300::1"
+          }
+        ],
+        "ebgpNeighbors": []  
+      },
+      "R2": {
+        "interfaces": {
+          "g1/0": {
+            "connectedTo": "R3",
+            "ipAddress": "2001:100:100:103::1/64"
+          },
+          "f0/0": {
+            "connectedTo": "R1",
+            "ipAddress": "2001:100:100:102::2/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:200:200:200::1/128"
+          }
+        },
+        "routerId": "2.2.2.2",
+        "ASnumber": "11",
+        "routingProtocols": ["Rip v2", "ibgp"],
+        "ibgpNeighbors": [
+          {
+            "neighbor": "R1",
+            "type": "client",
+            "localPreference": 150,
+            "ipAddress": "2001:100:100:102::1",
+            "loopbackAddress": "2001:100:100:100::1"
+          },
+          {
+            "neighbor": "R3",
+            "type": "peer",
+            "localPreference": 120,
+            "ipAddress": "2001:100:100:103::2",
+            "loopbackAddress": "2001:330:300:300::1"
+          }
+        ],
+        "ebgpNeighbors": []  
+      },
+      "R3": {
+        "interfaces": {
+          "g1/0": {
+            "connectedTo": "R2",
+            "ipAddress": "2001:100:100:103::2/64"
+          },
+          "f0/0": {
+            "connectedTo": "R1",
+            "ipAddress": "2001:100:100:101::2/64"
+          },
+          "g2/0": {
+            "connectedTo": "R4",
+            "ipAddress": "2001:300:300:300::1/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:330:300:300::1/128"
+          }
+        },
+        "routerId": "3.3.3.3",
+        "ASnumber": "11",
+        "routingProtocols": ["Rip v2", "ibgp", "ebgp"],
+        "ibgpNeighbors": [
+          {
+            "neighbor": "R1",
+            "type": "client",
+            "localPreference": 150,
+            "ipAddress": "2001:100:100:101::1",
+            "loopbackAddress": "2001:100:100:100::1"
+          },
+          {
+            "neighbor": "R2",
+            "type": "peer",
+            "localPreference": 120,
+            "ipAddress": "2001:100:100:103::1",
+            "loopbackAddress": "2001:200:200:200::1"
+          }
+        ],
+        "ebgpNeighbors": [
+          {
+            "neighbor": "R4",
+            "ipAddress": "2001:300:300:300::2",
+            "type": "peer",
+            "localPreference": 120,
+            "remoteAs": "22"
+          }
+        ],
+        "ipv6Prefix": [
+          "2001:100:100:101::/64",
+          "2001:100:100:103::/64",
+          "2001:100:100:102::/64"
+        ]
+      }
+    }
+  },
+  "AS22": {
+    "routers": {
+      "R4": {
+        "interfaces": {
+          "g2/0": {
+            "connectedTo": "R3",
+            "ipAddress": "2001:300:300:300::2/64"
+          },
+          "f0/0": {
+            "connectedTo": "R5",
+            "ipAddress": "2001:200:200:202::1/64"
+          },
+          "g1/0": {
+            "connectedTo": "R6",
+            "ipAddress": "2001:200:200:201::1/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:400:400:400::1/128"
+          }
+        },
+        "routerId": "4.4.4.4",
+        "ASnumber": "22",
+        "routingProtocols": ["Ospf", "ibgp", "ebgp"],
+        "area": "0",
+        "ibgpNeighbors": [
+          {
+            "neighbor": "R5",
+            "type": "client",
+            "localPreference": 150,
+            "ipAddress": "2001:200:200:202::2",
+            "loopbackAddress": "2001:500:500:500::2"
+          },
+          {
+            "neighbor": "R6",
+            "type": "peer",
+            "localPreference": 120,
+            "ipAddress": "2001:200:200:201::2",
+            "loopbackAddress": "2001:600:600:600::2"
+          }
+        ],
+        "ebgpNeighbors": [
+          {
+            "neighbor": "R3",
+            "ipAddress": "2001:300:300:300::1",
+            "type": "peer",
+            "localPreference": 120,
+            "remoteAs": "11"
+          }
+        ],
+        "ipv6Prefix": [
+          "2001:200:200:201::/64",
+          "2001:200:200:202::/64",
+          "2001:300:300:300::/64"
+        ]
+      },
+      "R5": {
+        "interfaces": {
+          "f0/0": {
+            "connectedTo": "R4",
+            "ipAddress": "2001:200:200:202::2/64"
+          },
+          "g2/0": {
+            "connectedTo": "R6",
+            "ipAddress": "2001:200:200:203::1/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:500:500:500::1/128"
+          }
+        },
+        "routerId": "5.5.5.5",
+        "ASnumber": "22",
+        "routingProtocols": ["Ospf", "ibgp"],
+        "area": "0",
+        "ibgpNeighbors": [
+          {
+            "neighbor": "R4",
+            "type": "client",
+            "localPreference": 150,
+            "ipAddress": "2001:200:200:202::1",
+            "loopbackAddress": "2001:400:400:400::1"
+          },
+          {
+            "neighbor": "R6",
+            "type": "peer",
+            "localPreference": 120,
+            "ipAddress": "2001:200:200:203::2",
+            "loopbackAddress": "2001:600:600:600::1"
+          }
+        ]
+      },
+      "R6": {
+        "interfaces": {
+          "g1/0": {
+            "connectedTo": "R4",
+            "ipAddress": "2001:200:200:201::2/64"
+          },
+          "g2/0": {
+            "connectedTo": "R5",
+            "ipAddress": "2001:200:200:203::2/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:600:600:600::1/128"
+          }
+        },
+        "routerId": "6.6.6.6",
+        "ASnumber": "22",
+        "routingProtocols": ["Ospf", "ibgp"],
+        "area": "0",
+        "ibgpNeighbors": [
+          {
+            "neighbor": "R4",
+            "type": "client",
+            "localPreference": 150,
+            "ipAddress": "2001:200:200:201::1",
+            "loopbackAddress": "2001:400:400:400::1"
+          },
+          {
+            "neighbor": "R5",
+            "type": "peer",
+            "localPreference": 120,
+            "ipAddress": "2001:200:200:203::1",
+            "loopbackAddress": "2001:500:500:500::1"
+          }
+        ]
+      }
+    }
+  }
+}
