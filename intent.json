@@ -30,7 +30,7 @@
             "neighbor": "R3",
             "type": "peer",
             "localPreference": 120,
-            "ipAddress": "2001:100:100:103::2",
+            "ipAddress": "2001:100:100:101::2",
             "loopbackAddress": "2001:330:300:300::1"
           }
         ],
@@ -95,15 +95,11 @@
         "ibgpNeighbors": [
           {
             "neighbor": "R1",
-            "type": "client",
-            "localPreference": 150,
             "ipAddress": "2001:100:100:101::1",
             "loopbackAddress": "2001:100:100:100::1"
           },
           {
             "neighbor": "R2",
-            "type": "peer",
-            "localPreference": 120,
             "ipAddress": "2001:100:100:103::1",
             "loopbackAddress": "2001:200:200:200::1"
           }
@@ -177,6 +173,7 @@
         "ipv6Prefix": [
           "2001:200:200:201::/64",
           "2001:200:200:202::/64",
+          "2001:200:200:203::/64",
           "2001:300:300:300::/64"
         ]
       },

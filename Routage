@@ -52,6 +52,11 @@ ip address : 2001:200:200:203::2/64
 loopback address : 2001:600:600:600::1/128
 router-id : 6.6.6.6
 
+As 33
+Routage intra domain : Ospf ibgp
+R7
+interface g1/0 : connected to r4
+
 
 rip v2 : R1 R2 R3 
 Ospf : R4 R5 R6

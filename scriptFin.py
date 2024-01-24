@@ -19,20 +19,18 @@ def generate_config(router_name, router_data):
                     config += f" ipv6 rip rip{as_number} enable\n"
 
         config += "!\n"
-
+     
     for protocol in router_data.get('routingProtocols', []):
         if protocol == 'Ospf':
             config += "router ospf 1\n!\n"
-        elif protocol == 'Rip v2':
-            config += f"router rip rip{as_number}\n redistribute connected\n!\n"
- 
 
-# ... (autre code)
 
-    if 'ibgpNeighbors' in router_data:
+
+
+    if 'ibgpNeighbors' in router_data or 'ebgpNeighbors' in router_data:
         config += f"router bgp {as_number}\n bgp router-id {router_data['routerId']}\n bgp log-neighbor-changes\n no bgp default ipv4-unicast\n"
         
-        for neighbor in router_data['ibgpNeighbors']:
+        for neighbor in router_data.get('ibgpNeighbors', []):
             config += f" neighbor {neighbor['ipAddress']} remote-as {as_number}\n"
             
             if 'loopbackAddress' in neighbor:
@@ -51,7 +49,7 @@ def generate_config(router_name, router_data):
         config += " !\n address-family ipv4\n exit-address-family\n"
         config += " address-family ipv6\n"
         
-        for neighbor in router_data['ibgpNeighbors']:
+        for neighbor in router_data.get('ibgpNeighbors', []):
             config += f"  neighbor {neighbor['ipAddress']} activate\n"
             
         for neighbor in router_data.get('ebgpNeighbors', []):
@@ -62,12 +60,23 @@ def generate_config(router_name, router_data):
         
         config += " exit-address-family\n!\n"
 
-# ... (autre code)
 
 
-    config += "ip forward-protocol nd\n!\n!\nno ip http server\nno ip http secure-server\n!\n!\n!\ncontrol-plane\n!\n!\nline con 0\n exec-timeout 0 0\n privilege level 15\n logging synchronous\n stopbits 1\nline aux 0\n exec-timeout 0 0\n privilege level 15\n logging synchronous\n stopbits 1\nline vty 0 4\n login\n!\n!\nend"
+
+    config += "ip forward-protocol nd\n!\n!\nno ip http server\nno ip http secure-server\n!\n"
+    
+    for protocol in router_data.get('routingProtocols', []):
+        if protocol == 'Ospf':
+            config += "ipv6 router ospf 1\n"
+            config += f"router-id {router_data['routerId']}\n!"
+            config += "redistribute connected subnets\n"
+        elif protocol == 'Rip v2':
+            config += f"router rip rip{as_number}\n redistribute connected\n!\n"
+
+    config+= "\n!\n!\ncontrol-plane\n!\n!\nline con 0\n exec-timeout 0 0\n privilege level 15\n logging synchronous\n stopbits 1\nline aux 0\n exec-timeout 0 0\n privilege level 15\n logging synchronous\n stopbits 1\nline vty 0 4\n login\n!\n!\nend"
 
     return config
+
 
 def write_config_to_file(router_name, config):
     destination_folder = r'C:\Users\ilhem\GNS3\projects\projet GNS3\project-files\dynamips'
@@ -102,7 +111,7 @@ def main():
     for as_number, as_data in data.items():
         for router_name, router_data in as_data['routers'].items():
             config = generate_config(router_name, router_data)
-            write_config_to_file(router_name, config)
+            #write_config_to_file(router_name, config)
 
 
 if __name__ == "__main__":
