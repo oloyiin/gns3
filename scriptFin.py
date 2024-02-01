@@ -28,21 +28,12 @@ route-map SET_LOCAL_PREF_{neighbor_name} permit 30
     else:
         return ""
 
-"""# Function to attach BGP communities based on neighbor type
-def attach_communities(config, neighbor, neighbor_type,as_number):
-    if neighbor_type == 'customer':
-        config += f"  neighbor {neighbor['ipAddress']} send-community {as_number}:100\n!\n"
-    elif neighbor_type == 'peer':
-        config += f"  neighbor {neighbor['ipAddress']} send-community {as_number}:200\n!\n"
-    elif neighbor_type == 'provider':
-        config += f"  neighbor {neighbor['ipAddress']} send-community {as_number}:300\n!\n"
 
-    return config"""
 
 # Function to generate route map for filtering based on community values
 def generate_route_map_filter(config, neighbor,as_number):
     
-    config += f"ipv6 community-list extend ALLOW_Client permit {as_number}:10 \n"
+    config += f"ip community-list expanded ALLOW_Client permit {as_number}:10 \n"
     config += f"route-map sendCustCom_{neighbor['name']} permit 40\n"
     config += f" match community ALLOW_Client\n"
     config += f"!\n"
