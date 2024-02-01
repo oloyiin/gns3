@@ -142,7 +142,12 @@ def write_config_to_file(router_name,filepath, config):
         os.makedirs(router_folder)
 
     # Write the configuration to the file
-    file_path = os.path.join(router_folder, f'i{router_name[1]}_startup-config.cfg')
+    if len(router_name) < 3:
+        file_path = os.path.join(router_folder, f'i{router_name[1]}_startup-config.cfg')
+    else:
+        file_path = os.path.join(router_folder, f'i1{router_name[2]}_startup-config.cfg')
+
+
     with open(file_path, 'w') as output_file:
         output_file.write(config)
 

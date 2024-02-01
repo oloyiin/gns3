@@ -256,7 +256,7 @@
           {
             "name": "R7",
             "ipAddress": "2001:670:670:670::1",
-            "type": "peer",
+            "type": "customer",
             "remoteAs": "33",
             "ipv6Prefix": "2001:670:670:670::/64"
            
@@ -264,7 +264,7 @@
           {
             "name": "R12",
             "ipAddress": "2001:600:600:600::2",
-            "type": "customer",
+            "type": "provider",
             "remoteAs": "55",
             "ipv6Prefix": "2001:600:600:600::/64"
           }
@@ -319,7 +319,7 @@
           {
             "name": "R6",
             "ipAddress": "2001:670:670:670::1",
-            "type": "peer",
+            "type": "provider",
             "remoteAs": "22",
             "ipv6Prefix": "2001:670:670:670::/64"
           }
