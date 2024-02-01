@@ -20,21 +20,18 @@
         "routingProtocols": ["Rip v2", "ibgp"],
         "ibgpNeighbors": [
           {
-            "neighbor": "R2",
-            "type": "client",
-            "localPreference": 150,
+            "name": "R2",
             "ipAddress": "2001:100:100:102::2",
             "loopbackAddress": "2001:200:200:200::1"
           },
           {
-            "neighbor": "R3",
-            "type": "peer",
-            "localPreference": 120,
+            "name": "R3",
             "ipAddress": "2001:100:100:101::2",
             "loopbackAddress": "2001:330:300:300::1"
           }
         ],
-        "ebgpNeighbors": []  
+        "filepath": "e7bf0a18-6ce8-488f-b42c-eb1ed1acaa9e"
+
       },
       "R2": {
         "interfaces": {
@@ -55,21 +52,17 @@
         "routingProtocols": ["Rip v2", "ibgp"],
         "ibgpNeighbors": [
           {
-            "neighbor": "R1",
-            "type": "client",
-            "localPreference": 150,
+            "name": "R1",
             "ipAddress": "2001:100:100:102::1",
             "loopbackAddress": "2001:100:100:100::1"
           },
           {
-            "neighbor": "R3",
-            "type": "peer",
-            "localPreference": 120,
+            "name": "R3",
             "ipAddress": "2001:100:100:103::2",
             "loopbackAddress": "2001:330:300:300::1"
           }
         ],
-        "ebgpNeighbors": []  
+        "filepath": "2b89f3d0-318d-430d-a382-42038a09a924"
       },
       "R3": {
         "interfaces": {
@@ -94,30 +87,31 @@
         "routingProtocols": ["Rip v2", "ibgp", "ebgp"],
         "ibgpNeighbors": [
           {
-            "neighbor": "R1",
+            "name": "R1",
             "ipAddress": "2001:100:100:101::1",
             "loopbackAddress": "2001:100:100:100::1"
           },
           {
-            "neighbor": "R2",
+            "name": "R2",
             "ipAddress": "2001:100:100:103::1",
             "loopbackAddress": "2001:200:200:200::1"
           }
         ],
         "ebgpNeighbors": [
           {
-            "neighbor": "R4",
+            "name": "R4",
             "ipAddress": "2001:300:300:300::2",
-            "type": "peer",
-            "localPreference": 120,
-            "remoteAs": "22"
+            "type": "customer",
+            "remoteAs": "22",
+            "ipv6Prefix": "2001:300:300:300::/64"
           }
         ],
         "ipv6Prefix": [
           "2001:100:100:101::/64",
           "2001:100:100:103::/64",
           "2001:100:100:102::/64"
-        ]
+        ],
+        "filepath" : "9581a37f-3263-4cf7-92a1-b504af5efdab"
       }
     }
   },
@@ -147,27 +141,23 @@
         "area": "0",
         "ibgpNeighbors": [
           {
-            "neighbor": "R5",
-            "type": "client",
-            "localPreference": 150,
+            "name": "R5",
             "ipAddress": "2001:200:200:202::2",
             "loopbackAddress": "2001:500:500:500::2"
           },
           {
-            "neighbor": "R6",
-            "type": "peer",
-            "localPreference": 120,
+            "name": "R6",
             "ipAddress": "2001:200:200:201::2",
             "loopbackAddress": "2001:600:600:600::2"
           }
         ],
         "ebgpNeighbors": [
           {
-            "neighbor": "R3",
+            "name": "R3",
             "ipAddress": "2001:300:300:300::1",
-            "type": "peer",
-            "localPreference": 120,
-            "remoteAs": "11"
+            "type": "customer",
+            "remoteAs": "11",
+            "ipv6Prefix": "2001:300:300:300::/64"
           }
         ],
         "ipv6Prefix": [
@@ -175,7 +165,8 @@
           "2001:200:200:202::/64",
           "2001:200:200:203::/64",
           "2001:300:300:300::/64"
-        ]
+        ],
+        "filepath" : "f2ecd431-b6eb-411e-b495-590da6dd931b"
       },
       "R5": {
         "interfaces": {
@@ -197,20 +188,17 @@
         "area": "0",
         "ibgpNeighbors": [
           {
-            "neighbor": "R4",
-            "type": "client",
-            "localPreference": 150,
+            "name": "R4",
             "ipAddress": "2001:200:200:202::1",
             "loopbackAddress": "2001:400:400:400::1"
           },
           {
-            "neighbor": "R6",
-            "type": "peer",
-            "localPreference": 120,
+            "name": "R6",
             "ipAddress": "2001:200:200:203::2",
             "loopbackAddress": "2001:600:600:600::1"
           }
-        ]
+        ],
+        "filepath" :"8e428838-b5c1-40d2-a5d1-83a89216450a"
       },
       "R6": {
         "interfaces": {
@@ -222,6 +210,10 @@
             "connectedTo": "R5",
             "ipAddress": "2001:200:200:203::2/64"
           },
+          "f0/0": {
+            "connectedTo": "R7",
+            "ipAddress": "2001:670:670:670::1/64"
+          },
           "loopback0": {
             "ipAddress": "2001:600:600:600::1/128"
           }
@@ -232,21 +224,150 @@
         "area": "0",
         "ibgpNeighbors": [
           {
-            "neighbor": "R4",
-            "type": "client",
-            "localPreference": 150,
+            "name": "R4",
             "ipAddress": "2001:200:200:201::1",
             "loopbackAddress": "2001:400:400:400::1"
           },
           {
-            "neighbor": "R5",
-            "type": "peer",
-            "localPreference": 120,
+            "name": "R5",
             "ipAddress": "2001:200:200:203::1",
             "loopbackAddress": "2001:500:500:500::1"
           }
-        ]
+        ],
+        "ebgpNeighbors": [
+          {
+            "name": "R7",
+            "ipAddress": "2001:670:670:670::1",
+            "type": "peer",
+            "remoteAs": "33",
+            "ipv6Prefix": "2001:670:670:670::/64"
+           
+          }
+        ],
+        "ipv6Prefix": [
+          "2001:200:200:201::/64",
+          "2001:200:200:202::/64",
+          "2001:200:200:203::/64"    
+        ],
+        "filepath" : "e724152c-7f3e-4b2f-af08-926a6929d2c4"
+      }
+    }
+  },
+  "AS33": {
+    "routers": {
+      "R7": {
+        "interfaces": {
+          "f0/0": {
+            "connectedTo": "R6",
+            "ipAddress": "2001:670:670:670::2/64"
+          },
+          "g1/0": {
+            "connectedTo": "R8",
+            "ipAddress": "2001:700:700:701::1/64"
+          },
+          "g2/0": {
+            "connectedTo": "R9",
+            "ipAddress": "2001:700:700:703::1/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:700:700:700::1/128"
+          }
+        },
+        "routerId": "7.7.7.7",
+        "ASnumber": "33",
+        "routingProtocols": ["Ospf", "ibgp", "ebgp"],
+        "ibgpNeighbors": [
+          {
+            "name": "R8",
+            "ipAddress": "2001:700:700:701::2",
+            "loopbackAddress": "2001:800:800:800::1"
+          },
+          {
+            "name": "R9",
+            "ipAddress": "2001:700:700:703::2",
+            "loopbackAddress": "2001:900:900:900::1"
+          }
+        ],
+        "ebgpNeighbors": [
+          {
+            "name": "R6",
+            "ipAddress": "2001:670:670:670::1",
+            "type": "peer",
+            "remoteAs": "22",
+            "ipv6Prefix": "2001:670:670:670::/64"
+          }
+        ],
+        "ipv6Prefix": [
+          "2001:700:700:701::/64",
+          "2001:700:700:702::/64",
+          "2001:700:700:703::/64"
+        ],
+        "filepath": "6fada44a-b8f8-4dd0-a0d5-ffcc1355db33"
+
+      },
+      "R8": {
+        "interfaces": {
+          "f0/0": {
+            "connectedTo": "R9",
+            "ipAddress": "2001:700:700:702::1/64"
+          },
+          "g1/0": {
+            "connectedTo": "R7",
+            "ipAddress": "2001:700:700:701::2/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:800:800:800::1/128"
+          }
+        },
+        "routerId": "8.8.8.8",
+        "ASnumber": "33",
+        "routingProtocols": ["Ospf", "ibgp"],
+        "ibgpNeighbors": [
+          {
+            "name": "R7",
+            "ipAddress": "2001:700:700:701::1",
+            "loopbackAddress": "2001:700:700:700::1"
+          },
+          {
+            "name": "R9",
+            "ipAddress": "2001:700:700:702::2",
+            "loopbackAddress": "2001:900:900:900::1"
+          }
+        ],
+        "filepath" : "cc43fb1c-3361-4ca4-8093-3aa5e695d5b3"
+      },
+      "R9": {
+        "interfaces": {
+          "f0/0": {
+            "connectedTo": "R8",
+            "ipAddress": "2001:700:700:702::2/64"
+          },
+          "g2/0": {
+            "connectedTo": "R7",
+            "ipAddress": "2001:700:700:703::2/64"
+          },
+          "loopback0": {
+            "ipAddress": "2001:900:900:900::1/128"
+          }
+        },
+        "routerId": "9.9.9.9",
+        "ASnumber": "33",
+        "routingProtocols": ["Ospf", "ibgp"],
+        "ibgpNeighbors": [
+          {
+            "name": "R7",
+            "ipAddress": "2001:700:700:703::1",
+            "loopbackAddress": "2001:700:700:700::1"
+          },
+          {
+            "name": "R8",
+            "ipAddress": "2001:700:700:702::1",
+            "loopbackAddress": "2001:800:800:800::1"
+          }
+        ],
+        "filepath" : "82585649-f4c1-4a30-accb-dd66705c0057"
       }
     }
   }
+  
 }
