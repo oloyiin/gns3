@@ -35,6 +35,8 @@ interface f0/0 : connected to R5
 ip address : 2001:200:200:202::1/64
 interface g1/0 : connected to R6
 ip address : 2001:200:200:201::1/64
+interface g3/0 : connected to R10
+ip address : 2001:400:400:400::1/64
 loopback address : 2001:400:400:400::1/128
 router-id : 4.4.4.4
 R5
@@ -51,6 +53,8 @@ interface g2/0 : connected to R5
 ip address : 2001:200:200:203::2/64
 interface f0/0 : connected to R7
 ip address : 2001:670:670:670::1/64
+interface g3/0 : connected to R12
+ip address : 2001:600:600:600::2/64
 loopback address : 2001:600:600:600::1/128
 router-id : 6.6.6.6
 
@@ -80,14 +84,69 @@ ip address : 2001:700:700:703::2/64
 loopback address : 2001:900:900:900::1/128
 router-id : 9.9.9.9
 
+As 44
+Routage intra domain : rip ibgp
+R10
+interface g2/0 : connected to r4
+ip address : 2001:400:400:400::2/64
+interface g1/0 : connected to R11
+ip address : 2001:400:400:401::1/64
+loopback address : 2001:1000:1000:1000::1/128
+router-id : 10.10.10.10
+filepath : 7683187c-33ee-4e95-94e0-2b4e39ba5293
+R11
+interface g1/0 : connected to R10
+ip address : 2001:400:400:401::2/64
+loopback address : 2001:1100:1100:1100::1/128
+router-id : 11.11.11.11
+filepath : c0d69475-0acc-46fa-a1a5-c52f9194f359
+
+As 55
+Routage intra domain : rip ibgp 
+R12
+interface g2/0 : connected to R6
+ip address : 2001:600:600:600::1/64
+interface g1/0 : connected to R13
+ip address : 2001:500:500:501::1/64
+interface g2/0 : connected to R14
+ip address : 2001:500:500:502::1/64
+loopback address : 2001:1200:1200:1200::1/128
+router-id : 12.12.12.12
+filepath : 46fc656a-0643-4990-b128-4077a59894f4
+R13
+interface g1/0 : connected to R12
+ip address : 2001:500:500:501::2/64
+interface g2/0 : connected to R14
+ip address : 2001:500:500:503::1/64
+loopback address : 2001:1300:1300:1300::1/128
+router-id : 13.13.13.13
+filepath : 733d62ab-c677-4d7f-8088-e7baffd341db
+R14
+interface f0/0 : connected to R12
+ip address : 2001:500:500:502::2/64
+interface g2/0 : connected to R13
+ip address : 2001:500:500:503::2/64
+loopback address : 2001:1400:1400:1400::1/128
+router-id : 14.14.14.14
+filepath : 4464059a-ffb6-4ffb-8e09-f12a40641a32
+
+
+
+
 
 rip v2 : R1 R2 R3 
 Ospf : R4 R5 R6
 ibgp : R4 R5 R6 ASnumber 22
 ibgp : R1 R2 R3 ASnumber 11
+ibgp : R7 R8 R9 ASnumber 33
+ibgp : R10 R11 ASnumber 44
+ibgp : R12 R13 R14 ASnumber 55
+
 
 ebgp : R3 R4 
-
+ebgp : R6 R7
+ebgp : R4 R10
+ebgp : R6 R12
 
 addressage ipv6
 ipv6 unicast-routing

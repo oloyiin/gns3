@@ -52,7 +52,12 @@ def generate_config(router_name, router_data):
             config += f" ipv6 address {data['ipAddress']}\n ipv6 enable\n"
             for protocol in router_data.get('routingProtocols', []):
                 if protocol == 'Ospf':
-                    config += f" ipv6 ospf 1 area 0\n"
+                    config += f" ipv6 ospf 1 area {router_data['area']}\n"
+                     # Check if OSPF metric is specified and add the line
+                    ospf_metric = router_data.get('OspfMetric')
+                    if ospf_metric is not None:
+                        config += f" ipv6 ospf cost {ospf_metric}\n"
+                    
                 elif protocol == 'Rip v2':
                     config += f" ipv6 rip rip{as_number} enable\n"
         config += "!\n"
@@ -69,12 +74,10 @@ def generate_config(router_name, router_data):
         # iBGP neighbors configuration
         for neighbor in router_data.get('ibgpNeighbors', []):
             config += f" neighbor {neighbor['ipAddress']} remote-as {as_number}\n"
-            config += f" neighbor {neighbor['ipAddress']} send-community\n"
 
             if 'loopbackAddress' in neighbor:
                 config += f" neighbor {neighbor['loopbackAddress']} remote-as {as_number}\n"
                 config += f" neighbor {neighbor['loopbackAddress']} update-source loopback0\n"
-                config += f" neighbor {neighbor['ipAddress']} send-community\n"
         
         # eBGP neighbors configuration
         for neighbor in router_data.get('ebgpNeighbors', []):
@@ -105,7 +108,7 @@ def generate_config(router_name, router_data):
         config += " exit-address-family\n!\n"
 
     # Miscellaneous configuration
-    config += "ip forward-protocol nd\n!\n!\nno ip http server\nno ip http secure-server\n!\n!\n"
+    config += "ip forward-protocol nd\n!\n!\nno ip http server\nno ip http secure-server\n!\n!\n!"
 
     # eBGP specific configuration
     if 'ebgpNeighbors' in router_data:
