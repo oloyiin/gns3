@@ -18,6 +18,12 @@ Le programme permet de créer des fichiers de configuration pour tous les routeu
     -Les configurations générées pour chaque routeur seront sauvegardées dans des fichiers distincts dans le répertoire de destination spécifié.
  
 ## Routing bgp communities 
+Les communities pour chaque client en utilsant une route map sont mis en place sous cette fome 
+
+  
+  ip community-list expanded ALLOW_Client permit {as_number}:10 
+  route-map sendCustCom_{neighbor['name']} permit 40
+  match community ALLOW_Client
 
 
 # Génération Automatique de Configurations de Routeurs

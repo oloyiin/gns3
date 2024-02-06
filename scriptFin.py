@@ -66,7 +66,7 @@ def generate_config(router_name, router_data):
                             config += f" ipv6 ospf cost {ospf_metric}\n"
                     
                         if 'mode' in data:
-                            config += f" ipv6 ospf {data['mode']}-interface {interface}\n"
+                            config += f" ipv6 ospf {data['mode']}\n"
                         
                     elif protocol == 'Rip v2':
                         config += f" ipv6 rip as{as_number} enable\n"
