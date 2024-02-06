@@ -48,19 +48,31 @@ def generate_config(router_name, router_data):
     # Interface configuration
     for interface, data in router_data['interfaces'].items():
         config += f"interface {interface}\n no ip address\n"
+
+        # Vérifier si l'interface est un voisin eBGP
+        is_ebgp_neighbor = any(neighbor['ipAddress'] == data['ipAddress'] for neighbor in router_data.get('ebgpNeighbors', []))
+        
         if 'ipAddress' in data:
             config += f" ipv6 address {data['ipAddress']}\n ipv6 enable\n"
-            for protocol in router_data.get('routingProtocols', []):
-                if protocol == 'Ospf':
-                    config += f" ipv6 ospf 1 area {router_data['area']}\n"
-                     # Check if OSPF metric is specified and add the line
-                    ospf_metric = router_data.get('OspfMetric')
-                    if ospf_metric is not None:
-                        config += f" ipv6 ospf cost {ospf_metric}\n"
+            if is_ebgp_neighbor:
+                config += f" ipv6 ospf passive-interface {interface}\n"
+            else:
+                for protocol in router_data.get('routingProtocols', []):
+                    if protocol == 'Ospf':
+                        config += f" ipv6 ospf 1 area {router_data['area']}\n"
+                    # Check if OSPF metric is specified and add the line
+                        ospf_metric = router_data.get('OspfMetric')
+                        if ospf_metric is not None:
+                            config += f" ipv6 ospf cost {ospf_metric}\n"
                     
-                elif protocol == 'Rip v2':
-                    config += f" ipv6 rip rip{as_number} enable\n"
+                        if 'mode' in data:
+                            config += f" ipv6 ospf {data['mode']}-interface {interface}\n"
+                        
+                    elif protocol == 'Rip v2':
+                        config += f" ipv6 rip as{as_number} enable\n"
         config += "!\n"
+
+
 
     # Routing protocol configuration
     for protocol in router_data.get('routingProtocols', []):
@@ -125,7 +137,7 @@ def generate_config(router_name, router_data):
             config += "ipv6 router ospf 1\n"
             config += f"router-id {router_data['routerId']}\n!"
         elif protocol == 'Rip v2':
-            config += f"router rip rip{as_number}\n redistribute connected\n!"
+            config += f"!\nrouter rip as{as_number}\n redistribute connected\n!"
 
     # Control plane and line configurations
     config += "\n!\n!\ncontrol-plane\n!\n!\nline con 0\n exec-timeout 0 0\n privilege level 15\n logging synchronous\n stopbits 1\nline aux 0\n exec-timeout 0 0\n privilege level 15\n logging synchronous\n stopbits 1\nline vty 0 4\n login\n!\n!\nend"
